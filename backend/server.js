@@ -6,6 +6,8 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const plantRoutes = require('./routes/plants');
+const paymentRoutes = require('./routes/payment');
+const imageRoutes = require('./routes/images');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,8 +18,13 @@ app.use(helmet());
 // ----------------- Rate Limiting -----------------
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.'
+  max: 100, // limit each IP to 100 requests per window
+  standardHeaders: true, // return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false,  // disable the `X-RateLimit-*` headers
+  message: {
+    status: 429,
+    message: 'Too many requests from this IP, please try again later.'
+  }
 });
 app.use(limiter);
 
@@ -31,7 +38,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // allow server-to-server or Postman
+    if (!origin) return callback(null, true); // allow Postman / server-to-server calls
 
     if (
       allowedOrigins.includes(origin) ||
@@ -39,6 +46,7 @@ app.use(cors({
     ) {
       callback(null, true);
     } else {
+      console.warn(`❌ CORS blocked for origin: ${origin}`);
       callback(new Error(`CORS not allowed for origin: ${origin}`));
     }
   },
@@ -58,13 +66,13 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/plantstor
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // ----------------- Routes -----------------
-app.use('/api/plants', require('./routes/plants'));
-app.use('/api/payment', require('./routes/payment'));
-app.use('/api/images', require('./routes/images'));
+app.use('/api/plants', plantRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use('/api/images', imageRoutes);
 
 // ----------------- Health Check -----------------
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ status: 'OK', uptime: process.uptime(), timestamp: new Date().toISOString() });
 });
 
 // ----------------- 404 Handler -----------------
@@ -74,8 +82,8 @@ app.use('*', (req, res) => {
 
 // ----------------- Error Handler -----------------
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
+  console.error('🔥 Error Handler:', err.stack);
+  res.status(err.status || 500).json({ 
     message: 'Something went wrong!',
     error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
   });
