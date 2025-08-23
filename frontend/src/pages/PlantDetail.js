@@ -6,6 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import './PlantDetail.css';
 
+const API_URL = process.env.REACT_APP_API_URL;
 const PlantDetail = ({ onAddToCart, onBuyNow }) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const PlantDetail = ({ onAddToCart, onBuyNow }) => {
     const fetchPlant = async () => {
       try {
         console.log('Fetching plant with ID:', id);
-        const response = await fetch(`http://localhost:5000/api/plants/${id}`);
+        const response = await fetch(`${API_URL}/api/plants/${id}`);
         if (!response.ok) {
           throw new Error('Plant not found');
         }
@@ -73,7 +74,7 @@ const PlantDetail = ({ onAddToCart, onBuyNow }) => {
     setImageLoading(true);
     
     try {
-      const response = await fetch(`http://localhost:5000/api/images/plant/${plant._id}`);
+      const response = await fetch(`${API_URL}/api/images/plant/${plant._id}`);
       const result = await response.json();
       
       if (result.success && result.imageUrl) {

@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { FaUser, FaMapMarkerAlt, FaPhone, FaCreditCard } from 'react-icons/fa';
 import './Checkout.css';
 
+
+const API_URL = process.env.REACT_APP_API_URL;
 const Checkout = ({ cartItems, onOrderComplete }) => {
   console.log('Checkout component - cartItems:', cartItems);
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Checkout = ({ cartItems, onOrderComplete }) => {
     // Get Razorpay key from backend
     const fetchRazorpayKey = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/payment/key');
+        const response = await fetch(`${API_URL}/api/payment/key`);
         const data = await response.json();
         setRazorpayKey(data.key);
       } catch (error) {
@@ -76,7 +78,7 @@ const Checkout = ({ cartItems, onOrderComplete }) => {
     
     try {
       // Create order on backend
-      const orderResponse = await fetch('http://localhost:5000/api/payment/create-order', {
+      const orderResponse = await fetch(`${API_URL}/api/payment/create-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +126,7 @@ const Checkout = ({ cartItems, onOrderComplete }) => {
         handler: async function (response) {
           // Verify payment on backend
           try {
-            const verifyResponse = await fetch('http://localhost:5000/api/payment/verify-payment', {
+            const verifyResponse = await fetch(`${API_URL}/api/payment/verify-payment`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
