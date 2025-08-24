@@ -156,7 +156,7 @@ const samplePlants = [
     description: "Round barrel cactus perfect for desk decoration.",
     care_instructions: "Bright light, water monthly",
     stock_quantity: 35,
-    image: "https://via.placeholder.com/300x300?text=Barrel+Cactus"
+    image: "https://i5.walmartimages.com/seo/Golden-Barrel-Cactus-4-inch-Live-Echinocactus-Grusonii-Succulent-Plant-Low-Maintenance-Indoor-Outdoor-Decor-Unique-Gift-for-Home-Office-Desk_af84a31b-45c9-4a5e-81f6-b388303882e0.69f1c75d1a476ffca957eb1777b0e954.jpeg?odnHeight=264&odnWidth=264&odnBg=FFFFFF"
   },
   {
     name: "Bamboo Palm",
@@ -201,7 +201,7 @@ const samplePlants = [
     description: "Holy basil with spiritual and medicinal significance.",
     care_instructions: "Full sun to partial shade, regular watering",
     stock_quantity: 32,
-    image: "https://via.placeholder.com/300x300?text=Tulsi"
+    image: "https://static.toiimg.com/thumb/msid-111715259,width-400,resizemode-4/111715259.jpg"
   },
   {
     name: "Bougainvillea",
@@ -237,7 +237,7 @@ const samplePlants = [
     description: "Aromatic herb perfect for teas and cooking.",
     care_instructions: "Partial shade, moist soil, regular harvesting",
     stock_quantity: 45,
-    image: "https://via.placeholder.com/300x300?text=Mint"
+    image: "https://herbsathome.co/images/growing_mint_plant-320.jpeg"
   },
   {
     name: "Ficus Bonsai",
@@ -246,7 +246,7 @@ const samplePlants = [
     description: "Miniature tree perfect for meditation spaces.",
     care_instructions: "Bright indirect light, careful watering, regular pruning",
     stock_quantity: 5,
-    image: "https://via.placeholder.com/300x300?text=Bonsai"
+    image: "https://easygrowseeds.com/cdn/shop/products/FicusCaricaBonsai_300x300.jpg?v=1674484581"
   },
   {
     name: "Christmas Cactus",
@@ -282,7 +282,7 @@ const samplePlants = [
     description: "Architectural succulent with thick, pointed leaves.",
     care_instructions: "Full sun, minimal water, well-draining soil",
     stock_quantity: 6,
-    image: "https://via.placeholder.com/300x300?text=Agave"
+    image: "https://i.etsystatic.com/23972964/c/509/509/0/0/il/069b23/3469836119/il_300x300.3469836119_3ilo.jpg"
   },
   {
     name: "Geranium",
@@ -309,7 +309,7 @@ const samplePlants = [
     description: "Architectural plant with sword-like leaves.",
     care_instructions: "Bright light, minimal water, well-draining soil",
     stock_quantity: 7,
-    image: "https://via.placeholder.com/300x300?text=Yucca"
+    image: "https://images.thdstatic.com/productImages/a91c264f-abd1-475e-ad14-b0fc9d00ae54/svn/united-nursery-house-plants-ycane10dg-64_300.jpg"
   },
   {
     name: "String of Hearts",
