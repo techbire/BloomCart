@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaRupeeSign, FaTag, FaEye, FaShoppingCart } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -6,7 +6,6 @@ import './PlantCard.css';
 
 const PlantCard = ({ plant, onAddToCart }) => {
   const navigate = useNavigate();
-  const [plantImage] = useState(plant.image);
 
   const {
     _id,
@@ -44,12 +43,9 @@ const PlantCard = ({ plant, onAddToCart }) => {
     <div className="plant-card" onClick={handleViewDetails}>
       <div className="plant-image-container">
         <img 
-          src={plantImage || 'https://via.placeholder.com/300x300?text=Plant'} 
+          src={image} 
           alt={name}
           className="plant-image"
-          onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/300x300?text=Plant';
-          }}
         />
         <div className={`availability-badge ${isInStock ? 'in-stock' : 'out-of-stock'}`}>
           {isInStock ? 'In Stock' : 'Out of Stock'}
