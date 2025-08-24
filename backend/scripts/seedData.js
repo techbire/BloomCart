@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Plant = require('../models/Plant');
-require('dotenv').config({ path: '../.env' });
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 // Sample plant data with realistic names and prices
 const samplePlants = [
   {
