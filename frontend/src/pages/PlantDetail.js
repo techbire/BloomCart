@@ -6,7 +6,6 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import './PlantDetail.css';
 
-const API_URL = process.env.REACT_APP_API_URL;
 const PlantDetail = ({ onAddToCart, onBuyNow }) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,7 +21,8 @@ const PlantDetail = ({ onAddToCart, onBuyNow }) => {
     const fetchPlant = async () => {
       try {
         console.log('Fetching plant with ID:', id);
-        const response = await fetch(`${API_URL}/api/plants/${id}`);
+        const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+        const response = await fetch(`${baseURL}/plants/${id}`);
         if (!response.ok) {
           throw new Error('Plant not found');
         }
@@ -74,12 +74,13 @@ const PlantDetail = ({ onAddToCart, onBuyNow }) => {
     setImageLoading(true);
     
     try {
-      const response = await fetch(`${API_URL}/api/images/plant/${plant._id}`);
+      const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${baseURL}/images/plant/${encodeURIComponent(plant.name)}`);
       const result = await response.json();
       
-      if (result.success && result.imageUrl) {
-        console.log('Got new image URL:', result.imageUrl);
-        setPlant(prev => ({ ...prev, image: result.imageUrl }));
+      if (result.success && result.data && result.data.imageUrl) {
+        console.log('Got new image URL:', result.data.imageUrl);
+        setPlant(prev => ({ ...prev, image: result.data.imageUrl }));
         setImageError(false);
       } else {
         console.log('No alternative image found, using fallback');
