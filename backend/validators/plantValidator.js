@@ -16,7 +16,8 @@ const plantSchema = Joi.object({
       'Medicinal',
       'Hanging',
       'Large',
-      'Small'
+      'Small',
+      'Favorites'
     )
   ).min(1).required(),
   availability: Joi.boolean(),

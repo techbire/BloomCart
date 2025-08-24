@@ -30,7 +30,8 @@ const plantSchema = new mongoose.Schema({
         'Medicinal',
         'Hanging',
         'Large',
-        'Small'
+        'Small',
+        'Favorites'
       ],
       message: 'Invalid category'
     }

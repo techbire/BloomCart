@@ -127,6 +127,12 @@ class GoogleImagesService {
     
     return results;
   }
+  
+  // Simple method for updating existing plants
+  static async fetchPlantImage(plantName) {
+    const service = new GoogleImagesService();
+    return await service.searchPlantImage(plantName);
+  }
 }
 
 module.exports = GoogleImagesService;

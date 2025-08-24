@@ -69,29 +69,10 @@ const PlantDetail = ({ onAddToCart, onBuyNow }) => {
     }
   };
 
-  const handleImageError = async () => {
-    console.log('Image failed to load, attempting to fetch new image for:', plant?.name);
-    setImageLoading(true);
-    
-    try {
-      const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
-      const response = await fetch(`${baseURL}/images/plant/${encodeURIComponent(plant.name)}`);
-      const result = await response.json();
-      
-      if (result.success && result.data && result.data.imageUrl) {
-        console.log('Got new image URL:', result.data.imageUrl);
-        setPlant(prev => ({ ...prev, image: result.data.imageUrl }));
-        setImageError(false);
-      } else {
-        console.log('No alternative image found, using fallback');
-        setImageError(true);
-      }
-    } catch (error) {
-      console.error('Failed to fetch alternative image:', error);
-      setImageError(true);
-    } finally {
-      setImageLoading(false);
-    }
+  const handleImageError = () => {
+    console.log('Image failed to load for:', plant?.name);
+    setImageError(true);
+    setImageLoading(false);
   };
 
   const handleImageLoad = () => {

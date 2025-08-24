@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaRupeeSign, FaTag, FaEye, FaShoppingCart } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import LoadingSpinner from './LoadingSpinner';
-import { imageAPI } from '../utils/imageAPI';
 import './PlantCard.css';
 
 const PlantCard = ({ plant, onAddToCart }) => {
   const navigate = useNavigate();
-  const [plantImage, setPlantImage] = useState(plant.image);
-  const [imageLoading, setImageLoading] = useState(false);
+  const [plantImage] = useState(plant.image);
 
   const {
     _id,
@@ -26,27 +23,6 @@ const PlantCard = ({ plant, onAddToCart }) => {
   const isInStock = stock > 0 || stock_quantity > 0;
   const stockCount = stock || stock_quantity || 0;
   const plantCategory = category || (categories && categories[0]) || 'General';
-
-  // Check if image is placeholder and fetch from Google Images API
-  useEffect(() => {
-    const fetchPlantImage = async () => {
-      if (!image || image.includes('placeholder') || image.includes('via.placeholder')) {
-        setImageLoading(true);
-        try {
-          const googleImage = await imageAPI.getPlantImage(name);
-          if (googleImage) {
-            setPlantImage(googleImage);
-          }
-        } catch (error) {
-          console.error('Error fetching plant image:', error);
-        } finally {
-          setImageLoading(false);
-        }
-      }
-    };
-
-    fetchPlantImage();
-  }, [name, image]);
 
   const handleViewDetails = () => {
     navigate(`/plant/${_id}`);
@@ -67,11 +43,6 @@ const PlantCard = ({ plant, onAddToCart }) => {
   return (
     <div className="plant-card" onClick={handleViewDetails}>
       <div className="plant-image-container">
-        {imageLoading && (
-          <div className="image-loading-overlay">
-            <LoadingSpinner size="small" showMessage={false} />
-          </div>
-        )}
         <img 
           src={plantImage || 'https://via.placeholder.com/300x300?text=Plant'} 
           alt={name}

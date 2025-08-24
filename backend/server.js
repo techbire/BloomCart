@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
-
 require('dotenv').config();
 
 const plantRoutes = require('./routes/plants');
