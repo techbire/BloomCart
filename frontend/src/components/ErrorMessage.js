@@ -16,7 +16,7 @@ const ErrorMessage = ({
         {showRetry && onRetry && (
           <button className="retry-btn" onClick={onRetry}>
             <FaRedo className="retry-icon" />
-            Try Again
+            Wake Up Backend
           </button>
         )}
       </div>

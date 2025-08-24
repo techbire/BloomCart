@@ -72,7 +72,7 @@ const Home = ({ onAddToCart }) => {
       }
     } catch (error) {
       console.error('Error fetching plants:', error);
-      setError(error.response?.data?.message || 'Failed to load plants. Please try again.');
+      setError(error.response?.data?.message || 'The backend is restarting. This may take a few seconds on free hosting. Please wait, refresh the page, and click "Try Again" shortly.');
       setPlants([]);
     } finally {
       setLoading(false);
