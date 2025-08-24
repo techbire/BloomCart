@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+
 require('dotenv').config();
 
 const plantRoutes = require('./routes/plants');
@@ -13,84 +13,28 @@ const PORT = process.env.PORT || 5000;
 // Security middleware
 app.use(helmet());
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.'
-});
-app.use(limiter);
-
-// Ensure caches respect per-origin responses
-app.use((req, res, next) => {
-  res.setHeader('Vary', 'Origin');
-  next();
-});
-
 // CORS configuration
-// Allows:
-// - Exact match of FRONTEND_URL
-// - Local development (http://localhost:3000)
-// - Any pattern specified in ALLOWED_ORIGINS (comma-separated), supports wildcard like *.vercel.app
-// - By default, also allow any *.vercel.app to simplify Vercel preview deployments
-const allowedExactOrigins = [
-  process.env.FRONTEND_URL,
-  'http://localhost:3000'
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://bloomcart-wheat.vercel.app',
+  process.env.FRONTEND_URL
 ].filter(Boolean);
-
-// Build wildcard and extra patterns
-const allowedOriginPatterns = [];
-if (process.env.ALLOWED_ORIGINS) {
-  process.env.ALLOWED_ORIGINS.split(',').forEach((raw) => {
-    const pattern = raw.trim();
-    if (pattern) allowedOriginPatterns.push(pattern);
-  });
-}
-// Sensible default: allow any Vercel deployment URL
-if (!allowedOriginPatterns.some(p => p === '*.vercel.app')) {
-  allowedOriginPatterns.push('*.vercel.app');
-}
-
-const allowAll = String(process.env.ALLOW_ALL_ORIGINS || '').toLowerCase() === 'true';
 
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowAll) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(`[CORS] AllowAll enabled, origin accepted: ${origin}`);
-      }
-      return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
-
-    const isExactAllowed = allowedExactOrigins.includes(origin);
-    const isPatternAllowed = allowedOriginPatterns.some((pattern) => {
-      if (pattern.startsWith('*.')) {
-        const suffix = pattern.slice(1); // e.g. '.vercel.app'
-        return origin.endsWith(suffix);
-      }
-      return origin === pattern;
-    });
-
-    if (isExactAllowed || isPatternAllowed) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(`[CORS] Allowed origin: ${origin}`);
-      }
-      return callback(null, true);
-    }
-
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn(`[CORS] Blocked origin: ${origin}`);
-    }
-    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
-  optionsSuccessStatus: 204
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
-
-// Explicitly handle preflight
-app.options('*', cors());
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
