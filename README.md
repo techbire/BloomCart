@@ -1,6 +1,12 @@
 # BloomCart
 
 A premium full-stack e-commerce web application for browsing, purchasing, and managing plants, built with React, Node.js, Express, and MongoDB. Created by [TechBire](https://www.linkedin.com/in/techbire/).
+🎯 **Live Demo**: [https://bloomcart-wheat.vercel.app/](https://bloomcart-wheat.vercel.app//)
+
+## 📸 Screenshots
+
+   ### Dashboard
+   ![Dashboard](https://i.ibb.co/zWZsN6j9/Screenshot-2025-08-24-190629.png)
 
 ## 🌱 Features
 
